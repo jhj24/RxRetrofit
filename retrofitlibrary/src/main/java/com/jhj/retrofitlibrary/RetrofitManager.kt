@@ -26,6 +26,11 @@ class RetrofitManager {
         return this
     }
 
+    fun setBaseUrl(url: String): RetrofitManager {
+        retrofit?.newBuilder()?.baseUrl(url)?.build()
+        return this
+    }
+
 
     fun <T> create(clazz: Class<T>): T {
         if (retrofit == null) {

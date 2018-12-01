@@ -5,6 +5,7 @@ public class HttpResult<T> {
     private int code;
     private String msg;
     private T items;
+    private T data;
 
     public int getCode() {
         return code;
@@ -28,5 +29,13 @@ public class HttpResult<T> {
 
     public void setItems(T items) {
         this.items = items;
+    }
+
+    public T getData() {
+        return data;
+    }
+
+    public void setData(T data) {
+        this.data = data;
     }
 }

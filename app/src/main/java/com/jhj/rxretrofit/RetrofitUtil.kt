@@ -8,5 +8,9 @@ object RetrofitUtil {
         return RetrofitServiceManager.create(RequestService::class.java)
     }
 
+    fun jqInstance(): RequestService {
+        return RetrofitServiceManager.init(UrlConstant.YED_URL).create(RequestService::class.java)
+    }
+
 
 }

@@ -1,5 +1,7 @@
 package com.jhj.retrofitlibrary
 
+import okhttp3.OkHttpClient
+
 
 object RetrofitServiceManager {
 
@@ -8,6 +10,16 @@ object RetrofitServiceManager {
     fun init(baseUrl: String): RetrofitManager {
         retrofitManager.init(baseUrl)
         return retrofitManager
+    }
+
+    fun updateBaseUrl(url: String): RetrofitServiceManager {
+        retrofitManager.setBaseUrl(url)
+        return this
+    }
+
+    fun updateClient(okHttpClient: OkHttpClient): RetrofitServiceManager {
+        retrofitManager.setClient(okHttpClient)
+        return this
     }
 
 

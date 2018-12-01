@@ -1,19 +1,17 @@
-package com.jhj.retrofitlibrary
+package com.jhj.retrofitlibrary.observer.base
 
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
 
-open class DefaultObserver<T> : Observer<T> {
+abstract class BaseObserver<T> : Observer<T> {
 
-
-    private var disposable: Disposable? = null
+    var disposable: Disposable? = null
 
     override fun onComplete() {
         if (disposable?.isDisposed == false) {
             disposable?.dispose()
         }
         onFinish()
-
     }
 
 
