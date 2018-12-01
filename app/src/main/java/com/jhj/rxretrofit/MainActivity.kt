@@ -7,10 +7,10 @@ import com.jhj.retrofitlibrary.observer.DialogObserver
 import com.jhj.retrofitlibrary.observer.ProgressObserver
 import com.jhj.retrofitlibrary.observer.base.BaseObserver
 import com.jhj.retrofitlibrary.utils.HttpParams
-import com.jhj.retrofitlibrary.utils.HttpUtils
 import com.jhj.rxretrofit.bean.ApplyTypeBean
 import com.jhj.rxretrofit.bean.CompanyBean
 import com.jhj.rxretrofit.bean.HttpResult
+import com.jhj.rxretrofit.net.RetrofitUtil
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
@@ -70,12 +70,13 @@ class MainActivity : AppCompatActivity() {
         btn_file.setOnClickListener {
 
             val a = "/storage/emulated/0/DCIM/Camera/IMG_20171004_160402.jpg"
-            val httpParams = HttpParams()
-            httpParams.put("user", "游客")
-            httpParams.put("userGuid", "374de98405204c3fa32e75c30b384967")
-            httpParams.put("file", File(a))
+            val d = HttpParams
+                .put("user", "游客")
+                .put("userGuid", "374de98405204c3fa32e75c30b384967")
+                .put("file", File(a))
+                .build()
 
-            val observer = object : ProgressObserver<HttpResult<String>>(this, "") {
+            RetrofitUtil.uploadFile(UrlConstant.ADD_IMAGE, d, object : ProgressObserver<HttpResult<String>>(this, "") {
 
                 override fun onNext(value: HttpResult<String>) {
                     super.onNext(value)
@@ -85,17 +86,28 @@ class MainActivity : AppCompatActivity() {
                 override fun onError(e: Throwable?) {
                     super.onError(e)
                 }
-            }
+            })
 
-            val body = HttpUtils.generateRequestBody(httpParams, observer);
-
-            RetrofitUtil.getInstance().uploadFile(UrlConstant.ADD_IMAGE, body)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(observer)
 
         }
 
+        btn_post.setOnClickListener {
+            val requestBody = HttpParams.put("comId", "46").build()
+            RetrofitUtil.post(
+                UrlConstant.COMPANY_INFO,
+                requestBody,
+                object : DialogObserver<HttpResult<CompanyBean>>(this, "") {
+
+
+                    override fun onNext(value: HttpResult<CompanyBean>) {
+                        super.onNext(value)
+                    }
+
+                    override fun onError(e: Throwable?) {
+                        super.onError(e)
+                    }
+                })
+        }
 
 
 
