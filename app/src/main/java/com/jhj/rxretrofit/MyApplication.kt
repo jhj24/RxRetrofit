@@ -8,6 +8,6 @@ class MyApplication : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        RetrofitServiceManager.init(UrlConstant.YQD_URL)
+
     }
 }

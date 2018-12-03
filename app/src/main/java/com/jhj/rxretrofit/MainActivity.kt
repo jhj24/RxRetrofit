@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.jhj.prompt.listener.OnDialogShowOnBackListener
 import com.jhj.retrofitlibrary.observer.DialogObserver
+import com.jhj.retrofitlibrary.observer.DownloadObserver
 import com.jhj.retrofitlibrary.observer.ProgressObserver
 import com.jhj.retrofitlibrary.observer.base.BaseObserver
 import com.jhj.retrofitlibrary.utils.HttpParams
@@ -14,6 +15,7 @@ import com.jhj.rxretrofit.net.RetrofitUtil
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
+import okhttp3.ResponseBody
 import org.jetbrains.anko.toast
 import java.io.File
 
@@ -92,19 +94,18 @@ class MainActivity : AppCompatActivity() {
         }
 
         btn_post.setOnClickListener {
+            val path = FileUtils.getSDPath("file" + File.separator)
+            val file = File(path, FileUtils.getNameFromUrl(UrlConstant.downUrl))
             val requestBody = HttpParams.put("comId", "46").build()
-            RetrofitUtil.post(
-                UrlConstant.COMPANY_INFO,
-                requestBody,
-                object : DialogObserver<HttpResult<CompanyBean>>(this, "") {
+            RetrofitUtil.download(
+                UrlConstant.YED_URL,
+                UrlConstant.downUrl,
+                object : DownloadObserver(this, "", file) {
 
-
-                    override fun onNext(value: HttpResult<CompanyBean>) {
+                    override fun onNext(value: ResponseBody) {
                         super.onNext(value)
-                    }
 
-                    override fun onError(e: Throwable?) {
-                        super.onError(e)
+
                     }
                 })
         }

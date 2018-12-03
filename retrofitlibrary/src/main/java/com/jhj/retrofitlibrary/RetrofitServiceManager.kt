@@ -1,6 +1,6 @@
 package com.jhj.retrofitlibrary
 
-import okhttp3.OkHttpClient
+import com.jhj.retrofitlibrary.observer.base.BaseDownloadObserver
 
 
 object RetrofitServiceManager {
@@ -8,11 +8,16 @@ object RetrofitServiceManager {
     private val retrofitManager = RetrofitManager()
 
     fun init(baseUrl: String): RetrofitManager {
-        retrofitManager.init(baseUrl)
+        init(baseUrl, null)
         return retrofitManager
     }
 
-    fun updateBaseUrl(url: String): RetrofitServiceManager {
+    fun init(baseUrl: String, observer: BaseDownloadObserver?): RetrofitManager {
+        retrofitManager.init(baseUrl, observer)
+        return retrofitManager
+    }
+
+    /*fun updateBaseUrl(url: String): RetrofitServiceManager {
         retrofitManager.setBaseUrl(url)
         return this
     }
@@ -20,12 +25,14 @@ object RetrofitServiceManager {
     fun updateClient(okHttpClient: OkHttpClient): RetrofitServiceManager {
         retrofitManager.setClient(okHttpClient)
         return this
-    }
+    }*/
 
 
     fun <T> create(clazz: Class<T>): T {
         return retrofitManager.create(clazz)
     }
+
+
 
 
 }

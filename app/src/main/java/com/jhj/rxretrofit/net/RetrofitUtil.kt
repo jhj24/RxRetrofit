@@ -1,8 +1,9 @@
 package com.jhj.rxretrofit.net
 
 import com.jhj.retrofitlibrary.RetrofitServiceManager
+import com.jhj.retrofitlibrary.observer.base.BaseDownloadObserver
 import com.jhj.retrofitlibrary.observer.base.BaseProgressObserver
-import com.jhj.retrofitlibrary.requestbody.FileRequestBody
+import com.jhj.retrofitlibrary.requestbody.UploadProgress
 import com.jhj.rxretrofit.UrlConstant
 import com.jhj.rxretrofit.bean.HttpResult
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -12,7 +13,7 @@ import okhttp3.RequestBody
 object RetrofitUtil {
 
     fun getInstance(): RequestService {
-        return RetrofitServiceManager.create(RequestService::class.java)
+        return RetrofitServiceManager.init(UrlConstant.YQD_URL).create(RequestService::class.java)
     }
 
     fun jqInstance(): RequestService {
@@ -22,18 +23,19 @@ object RetrofitUtil {
 
     fun uploadFile(url: String, requestBody: RequestBody, observer: BaseProgressObserver<HttpResult<String>>) {
         getInstance()
-            .uploadFile(url, FileRequestBody(requestBody, observer))
+            .uploadFile(url, UploadProgress(requestBody, observer))
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(observer)
     }
 
-    fun download(url: String) {
-        getInstance()
-            .download(url)
+
+    fun download(baseUrl: String, url: String, observer: BaseDownloadObserver) {
+        val a = RetrofitServiceManager.init(baseUrl, observer).create(RequestService::class.java)
+        a.download(url)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe()
+            .subscribe(observer)
     }
 
 }

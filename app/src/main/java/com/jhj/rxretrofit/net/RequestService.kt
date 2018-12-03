@@ -6,8 +6,8 @@ import com.jhj.rxretrofit.bean.CompanyBean
 import com.jhj.rxretrofit.bean.HttpResult
 import io.reactivex.Observable
 import okhttp3.RequestBody
+import okhttp3.ResponseBody
 import retrofit2.http.*
-import java.io.File
 
 
 interface RequestService {
@@ -24,9 +24,7 @@ interface RequestService {
     @POST
     fun uploadFile(@Url url: String, @Body body: RequestBody): Observable<HttpResult<String>>
 
-    @POST
-    fun <T> post(@Url url: String, @Body body: RequestBody): Observable<T>
 
     @GET
-    fun download(@Url url: String): Observable<HttpResult<File>>
+    fun download(@Url url: String): Observable<ResponseBody>
 }

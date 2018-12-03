@@ -1,5 +1,8 @@
 package com.jhj.retrofitlibrary
 
+import com.jhj.retrofitlibrary.observer.base.BaseDownloadObserver
+import com.jhj.retrofitlibrary.requestbody.DownloadProgress
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
@@ -11,13 +14,39 @@ class RetrofitManager {
     private var okHttpClient = OkHttpClient.Builder().build()
 
 
-    fun init(baseUrl: String) {
-        retrofit = Retrofit.Builder()
+    fun init(baseUrl: String, observer: BaseDownloadObserver?) {
+
+        retrofit = if (observer == null) {
+            Retrofit.Builder()
                 .baseUrl(baseUrl)
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build()
+        } else {
+            val interceptor = Interceptor { chain ->
+                val response = chain.proceed(chain.request())
+                val responseBody = response?.body()
+                val mBody = responseBody?.let {
+                    DownloadProgress(it, observer)
+                }
+                return@Interceptor response.newBuilder()
+                    .body(mBody)
+                    .build()
+            }
+
+            val okHttpClient = OkHttpClient
+                .Builder()
+                .addNetworkInterceptor(interceptor)
+                .build()
+
+            Retrofit.Builder()
+                .baseUrl(baseUrl)
+                .client(okHttpClient)
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .build()
+        }
     }
 
     fun setClient(client: OkHttpClient): RetrofitManager {
@@ -38,5 +67,4 @@ class RetrofitManager {
         }
         return retrofit!!.create(clazz)
     }
-
 }
