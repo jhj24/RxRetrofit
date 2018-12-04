@@ -6,7 +6,7 @@ import com.jhj.retrofitlibrary.model.RetrofitManager
 import io.reactivex.Observer
 
 
-object RetrofitServiceManager {
+object HttpRetrofit {
 
     private val retrofitManager = RetrofitManager()
 
@@ -15,17 +15,17 @@ object RetrofitServiceManager {
         return retrofitManager.init(mContext)
     }
 
-    fun setCache(cache: Boolean): RetrofitServiceManager {
+    fun setCache(cache: Boolean): HttpRetrofit {
         retrofitManager.setCache(cache)
         return this
     }
 
-    fun buildRetrofit(): RetrofitServiceManager {
+    fun buildRetrofit(): HttpRetrofit {
         retrofitManager.buildRetrofit(null)
         return this
     }
 
-    fun buildRetrofit(observer: Observer<*>?): RetrofitServiceManager {
+    fun buildRetrofit(observer: Observer<*>?): HttpRetrofit {
         retrofitManager.buildRetrofit(observer)
         return this
     }

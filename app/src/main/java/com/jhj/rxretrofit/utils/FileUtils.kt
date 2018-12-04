@@ -1,4 +1,4 @@
-package com.jhj.rxretrofit
+package com.jhj.rxretrofit.utils
 
 import android.os.Environment
 import java.io.File
