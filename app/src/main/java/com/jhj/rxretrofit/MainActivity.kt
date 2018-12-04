@@ -9,7 +9,6 @@ import com.jhj.retrofitlibrary.observer.ProgressObserver
 import com.jhj.retrofitlibrary.observer.base.BaseObserver
 import com.jhj.retrofitlibrary.utils.HttpParams
 import com.jhj.rxretrofit.bean.ApplyTypeBean
-import com.jhj.rxretrofit.bean.CompanyBean
 import com.jhj.rxretrofit.bean.HttpResult
 import com.jhj.rxretrofit.net.RetrofitUtil
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -27,13 +26,13 @@ class MainActivity : AppCompatActivity() {
 
         btn_company.setOnClickListener {
             RetrofitUtil.getInstance()
-                    .getInfo("46")
+                .getInfo("754")
                     .subscribeOn(Schedulers.io())
                     .unsubscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(object : BaseObserver<HttpResult<CompanyBean>>() {
+                .subscribe(object : BaseObserver<HttpResult<List<ApplyTypeBean>>>() {
 
-                        override fun onNext(value: HttpResult<CompanyBean>) {
+                    override fun onNext(value: HttpResult<List<ApplyTypeBean>>) {
                             super.onNext(value)
                             toast(value.msg)
 
@@ -45,7 +44,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         btn_type.setOnClickListener {
-            RetrofitUtil.jqInstance()
+            RetrofitUtil.getInstanceNoCache()
                 .getType(754)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -100,7 +99,7 @@ class MainActivity : AppCompatActivity() {
             RetrofitUtil.download(
                 UrlConstant.YED_URL,
                 UrlConstant.downUrl,
-                object : DownloadObserver(this, "", file) {
+                object : DownloadObserver<ResponseBody>(this, "", file) {
 
                     override fun onNext(value: ResponseBody) {
                         super.onNext(value)

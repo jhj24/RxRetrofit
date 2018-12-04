@@ -1,4 +1,4 @@
-package com.jhj.retrofitlibrary.requestbody
+package com.jhj.retrofitlibrary.body
 
 import com.jhj.retrofitlibrary.observer.base.BaseDownloadObserver
 import okhttp3.MediaType
@@ -8,7 +8,7 @@ import okio.BufferedSource
 import okio.ForwardingSource
 import okio.Okio
 
-class DownloadProgress(private val responseBody: ResponseBody, val downloadObserver: BaseDownloadObserver) :
+class DownloadResponseBody<T>(private val responseBody: ResponseBody, val downloadObserver: BaseDownloadObserver<T>) :
     ResponseBody() {
 
     override fun contentLength(): Long {

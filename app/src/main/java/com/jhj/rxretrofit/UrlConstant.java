@@ -10,7 +10,6 @@ public class UrlConstant {
     public final static String YED_URL = "http:www.97gyl.com";
 
 
-    public final static String WEATHER = "http://rap2api.taobao.org/app/mock/3711/GET//weather/monday";
     public final static String HTTPS = "https://github.com/jeasonlzy/OkGo";
     public final static String COMPANY_INFO = "/Com_regiInfo.ashx";
     public final static String USER_INFO = "/Com/User_BusinessCard.ashx";

@@ -1,4 +1,4 @@
-package com.jhj.retrofitlibrary.requestbody
+package com.jhj.retrofitlibrary.body
 
 import com.jhj.retrofitlibrary.observer.base.BaseProgressObserver
 import okhttp3.MediaType
@@ -8,7 +8,7 @@ import okio.*
 /**
  * 带有进度监听的请求体
  */
-class UploadProgress(private val request: RequestBody, var observer: BaseProgressObserver<*>) : RequestBody() {
+class UploadRequestBody<T>(private val request: RequestBody, var observer: BaseProgressObserver<T>) : RequestBody() {
 
 
     override fun writeTo(sink: BufferedSink) {

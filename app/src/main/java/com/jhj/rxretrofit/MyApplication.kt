@@ -7,7 +7,6 @@ class MyApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-
-
+        RetrofitServiceManager.init(this).setBaseUrl(UrlConstant.YED_URL)
     }
 }

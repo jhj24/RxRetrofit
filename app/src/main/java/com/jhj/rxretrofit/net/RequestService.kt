@@ -13,8 +13,8 @@ import retrofit2.http.*
 interface RequestService {
 
     @FormUrlEncoded
-    @POST(UrlConstant.COMPANY_INFO)
-    fun getInfo(@Field("comId") string: String): Observable<HttpResult<CompanyBean>>
+    @POST(UrlConstant.type)
+    fun getInfo(@Field("memberId") string: String): Observable<HttpResult<List<ApplyTypeBean>>>
 
 
     @FormUrlEncoded

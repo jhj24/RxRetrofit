@@ -6,8 +6,8 @@ import com.jhj.prompt.listener.OnDialogShowOnBackListener
 import com.jhj.retrofitlibrary.observer.base.BaseDownloadObserver
 import java.io.File
 
-open class DownloadObserver(val activity: Activity, val msg: String, downloadFile: File) :
-    BaseDownloadObserver(downloadFile) {
+open class DownloadObserver<T>(val activity: Activity, val msg: String, downloadFile: File) :
+    BaseDownloadObserver<T>(downloadFile) {
 
     var dialog = PercentFragment.Builder(activity)
 

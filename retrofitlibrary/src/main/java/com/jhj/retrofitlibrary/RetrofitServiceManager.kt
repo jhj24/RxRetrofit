@@ -1,38 +1,36 @@
 package com.jhj.retrofitlibrary
 
-import com.jhj.retrofitlibrary.observer.base.BaseDownloadObserver
+import android.content.Context
+import com.jhj.retrofitlibrary.model.Attribute
+import com.jhj.retrofitlibrary.model.RetrofitManager
+import io.reactivex.Observer
 
 
 object RetrofitServiceManager {
 
     private val retrofitManager = RetrofitManager()
 
-    fun init(baseUrl: String): RetrofitManager {
-        init(baseUrl, null)
-        return retrofitManager
+
+    fun init(mContext: Context): Attribute {
+        return retrofitManager.init(mContext)
     }
 
-    fun init(baseUrl: String, observer: BaseDownloadObserver?): RetrofitManager {
-        retrofitManager.init(baseUrl, observer)
-        return retrofitManager
-    }
-
-    /*fun updateBaseUrl(url: String): RetrofitServiceManager {
-        retrofitManager.setBaseUrl(url)
+    fun setCache(cache: Boolean): RetrofitServiceManager {
+        retrofitManager.setCache(cache)
         return this
     }
 
-    fun updateClient(okHttpClient: OkHttpClient): RetrofitServiceManager {
-        retrofitManager.setClient(okHttpClient)
+    fun buildRetrofit(): RetrofitServiceManager {
+        retrofitManager.buildRetrofit(null)
         return this
-    }*/
+    }
 
+    fun buildRetrofit(observer: Observer<*>?): RetrofitServiceManager {
+        retrofitManager.buildRetrofit(observer)
+        return this
+    }
 
     fun <T> create(clazz: Class<T>): T {
         return retrofitManager.create(clazz)
     }
-
-
-
-
 }
